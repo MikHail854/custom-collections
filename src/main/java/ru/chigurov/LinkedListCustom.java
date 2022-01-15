@@ -1,7 +1,5 @@
 package ru.chigurov;
 
-import lombok.Data;
-
 import java.util.*;
 
 public class LinkedListCustom<E> implements List<E> {
@@ -45,6 +43,39 @@ public class LinkedListCustom<E> implements List<E> {
         throw new IllegalArgumentException();
     }
 
+    public E remove(int index) {
+        Node<E> result;
+
+        if (index == 0) {
+            result = head;
+            head = head.getNext();
+            size--;
+            return result.getValue();
+        }
+
+        int currentIndex = 0;
+        Node<E> temp = head;
+
+        while (temp != null) {
+            if (currentIndex == index - 1) {
+                result = temp.getNext();
+                temp.setNext(temp.getNext().getNext());
+                size--;
+                return result.getValue();
+            } else {
+                temp = temp.getNext();
+                currentIndex++;
+            }
+        }
+
+        throw new IllegalArgumentException();
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return false;
+    }
+
     @Override
     public String toString() {
 
@@ -63,9 +94,11 @@ public class LinkedListCustom<E> implements List<E> {
 
     //    @Data
     private static class Node<E> {
-        private E value;
 
+        private E value;
         private Node<E> next;
+        private Node<E> prev;
+
 
         public Node(E value) {
             this.value = value;
@@ -85,6 +118,14 @@ public class LinkedListCustom<E> implements List<E> {
 
         public void setNext(Node<E> next) {
             this.next = next;
+        }
+
+        public Node<E> getPrev() {
+            return prev;
+        }
+
+        public void setPrev(Node<E> prev) {
+            this.prev = prev;
         }
     }
 
@@ -118,11 +159,6 @@ public class LinkedListCustom<E> implements List<E> {
         return null;
     }
 
-
-    @Override
-    public boolean remove(Object o) {
-        return false;
-    }
 
     @Override
     public boolean containsAll(Collection<?> c) {
@@ -164,10 +200,6 @@ public class LinkedListCustom<E> implements List<E> {
 
     }
 
-    @Override
-    public E remove(int index) {
-        return null;
-    }
 
     @Override
     public int indexOf(Object o) {
