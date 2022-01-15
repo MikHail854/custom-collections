@@ -29,6 +29,23 @@ public class LinkedListCustom<E> implements List<E> {
     }
 
     @Override
+    public E get(int index) {
+        int currentIndex = 0;
+        Node<E> temp = head;
+
+        while (temp != null) {
+            if (currentIndex == index) {
+                return temp.getValue();
+            } else {
+                temp = temp.getNext();
+                currentIndex++;
+            }
+        }
+
+        throw new IllegalArgumentException();
+    }
+
+    @Override
     public String toString() {
 
         Object[] result = new Object[size];
@@ -44,10 +61,10 @@ public class LinkedListCustom<E> implements List<E> {
 
     }
 
-
     //    @Data
     private static class Node<E> {
         private E value;
+
         private Node<E> next;
 
         public Node(E value) {
@@ -135,11 +152,6 @@ public class LinkedListCustom<E> implements List<E> {
     @Override
     public void clear() {
 
-    }
-
-    @Override
-    public E get(int index) {
-        return null;
     }
 
     @Override
