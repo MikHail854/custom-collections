@@ -12,15 +12,13 @@ public class LinkedListCustom<E> implements List<E> {
     public boolean add(E e) {
         //если первое добавление в список
         if (head == null) {
-            this.head = new Node<>(e);
+            this.head = new Node<>(e, null);
         } else {
             Node<E> temp = head;
-
             while (temp.getNext() != null) {
                 temp = temp.getNext();
             }
-
-            temp.setNext(new Node<>(e));
+            temp.setNext(new Node<>(e, temp));
         }
         size++;
         return true;
@@ -100,8 +98,9 @@ public class LinkedListCustom<E> implements List<E> {
         private Node<E> prev;
 
 
-        public Node(E value) {
+        public Node(E value, Node<E> prev) {
             this.value = value;
+            this.prev = prev;
         }
 
         public E getValue() {
