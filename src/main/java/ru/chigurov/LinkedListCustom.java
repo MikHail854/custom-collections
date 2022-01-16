@@ -200,6 +200,7 @@ public class LinkedListCustom<E> implements List<E> {
             temp.setValue(null);
             temp = next;
         }
+        head = null;
         size = 0;
     }
 
