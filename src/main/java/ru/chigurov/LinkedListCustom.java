@@ -111,8 +111,8 @@ public class LinkedListCustom<E> implements List<E> {
     public boolean contains(Object o) {
         Node<E> temp = head;
 
-        while (temp != null){
-            if (temp.getValue().equals(o)){
+        while (temp != null) {
+            if (temp.getValue().equals(o)) {
                 return true;
             } else {
                 temp = temp.getNext();
@@ -128,7 +128,23 @@ public class LinkedListCustom<E> implements List<E> {
     }
 
     @Override
+    public void clear() {
+        Node<E> temp = head;
+        while (temp != null) {
+            Node<E> next = temp.getNext();
+            temp.setNext(null);
+            temp.setPrev(null);
+            temp.setValue(null);
+            temp = next;
+        }
+        size = 0;
+    }
+
+    @Override
     public String toString() {
+        if (size == 0) {
+            return "[]";
+        }
 
         Object[] result = new Object[size];
         int idx = 0;
@@ -142,6 +158,7 @@ public class LinkedListCustom<E> implements List<E> {
         return Arrays.toString(result);
 
     }
+
     //    @Data
     private static class Node<E> {
 
@@ -227,11 +244,6 @@ public class LinkedListCustom<E> implements List<E> {
     @Override
     public boolean retainAll(Collection<?> c) {
         return false;
-    }
-
-    @Override
-    public void clear() {
-
     }
 
     @Override
