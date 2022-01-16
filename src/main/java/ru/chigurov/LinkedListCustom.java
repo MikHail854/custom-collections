@@ -62,7 +62,6 @@ public class LinkedListCustom<E> implements List<E> {
     public E get(int index) {
         int currentIndex = 0;
         Node<E> temp = head;
-
         while (temp != null) {
             if (currentIndex == index) {
                 return temp.getValue();
@@ -77,7 +76,11 @@ public class LinkedListCustom<E> implements List<E> {
 
     public E remove(int index) {
         Node<E> result;
+        int currentIndex = 0;
+        Node<E> temp = head;
+        Node<E> prev = null;
 
+        //removing the first element
         if (index == 0) {
             result = head;
             if (head.getNext() != null) {
@@ -90,20 +93,30 @@ public class LinkedListCustom<E> implements List<E> {
             return result.getValue();
         }
 
-        int currentIndex = 0;
-        Node<E> temp = head;
+        //removing the last element
+        if (index == size - 1) {
+            while (temp != null) {
+                if (temp.getNext() == null) {
+                    result = temp;
+                    temp = temp.getPrev();
+                    temp.setNext(null);
+                    size--;
+                    return result.getValue();
+                } else {
+                    temp = temp.getNext();
+                }
+            }
+        }
 
+        //removing the penultimate element
         while (temp != null) {
-            if (currentIndex == index - 1) {
-                Node<E> pr;
-                pr = temp;
-                result = temp.getNext();
-                temp.setNext(temp.getNext().getNext());
-                temp = temp.getNext().getNext();
-                temp.setPrev(pr);
+            if (currentIndex == index) {
+                prev.setNext(temp.getNext());
+                temp.getNext().setPrev(prev);
                 size--;
-                return result.getValue();
+                return temp.getValue();
             } else {
+                prev = temp;
                 temp = temp.getNext();
                 currentIndex++;
             }
@@ -160,8 +173,8 @@ public class LinkedListCustom<E> implements List<E> {
     public E set(int index, E e) {
         Node<E> temp = head;
         int currentIndex = 0;
-        while (temp != null){
-            if (currentIndex == index){
+        while (temp != null) {
+            if (currentIndex == index) {
                 temp.setValue(e);
                 return temp.getValue();
             } else {
@@ -208,9 +221,9 @@ public class LinkedListCustom<E> implements List<E> {
         return Arrays.toString(result);
 
     }
+
     //    @Data
     private static class Node<E> {
-
 
 
         private E value;
