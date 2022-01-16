@@ -47,6 +47,7 @@ public class LinkedListCustom<E> implements List<E> {
         if (index == 0) {
             result = head;
             head = head.getNext();
+            head.setPrev(null);
             size--;
             return result.getValue();
         }
@@ -56,8 +57,12 @@ public class LinkedListCustom<E> implements List<E> {
 
         while (temp != null) {
             if (currentIndex == index - 1) {
+                Node<E> pr;
+                pr = temp;
                 result = temp.getNext();
                 temp.setNext(temp.getNext().getNext());
+                temp = temp.getNext().getNext();
+                temp.setPrev(pr);
                 size--;
                 return result.getValue();
             } else {
@@ -71,7 +76,27 @@ public class LinkedListCustom<E> implements List<E> {
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        Node<E> temp = head;
+        if (head.getValue().equals(o)) {
+            head = head.getNext();
+            head.setPrev(null);
+            size--;
+            return true;
+        }
+
+        while (temp != null) {
+            if (temp.getNext().getValue().equals(o)) {
+                Node<E> pr = temp;
+                temp.setNext(temp.getNext().getNext());
+                temp = temp.getNext().getNext();
+                temp.setPrev(pr);
+                size--;
+                return true;
+            } else {
+                temp = temp.getNext();
+            }
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override
