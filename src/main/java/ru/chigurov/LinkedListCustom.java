@@ -25,6 +25,40 @@ public class LinkedListCustom<E> implements List<E> {
     }
 
     @Override
+    public void add(int index, E e) {
+        if (index == 0) {
+            Node<E> temp = head;
+            temp.setPrev(new Node<>(e, null));
+            temp.getPrev().setNext(temp);
+            head = temp.getPrev();
+            size++;
+        } else if (size == index) {
+            add(e);
+        } else {
+            Node<E> temp = head;
+            Node<E> next;
+            Node<E> prev;
+            int currentIndex = 0;
+            while (temp != null) {
+                if (currentIndex == index - 1) {
+                    next = temp.getNext();
+                    temp.setNext(new Node<>(e, temp));
+                    temp.getNext().setNext(next);
+                    temp = temp.getNext();
+                    prev = temp;
+                    temp.getNext().setPrev(prev);
+                    break;
+                } else {
+                    temp = temp.getNext();
+                    currentIndex++;
+                }
+            }
+            size++;
+        }
+
+    }
+
+    @Override
     public E get(int index) {
         int currentIndex = 0;
         Node<E> temp = head;
@@ -38,7 +72,7 @@ public class LinkedListCustom<E> implements List<E> {
             }
         }
 
-        throw new IllegalArgumentException();
+        throw new IndexOutOfBoundsException();
     }
 
     public E remove(int index) {
@@ -75,7 +109,7 @@ public class LinkedListCustom<E> implements List<E> {
             }
         }
 
-        throw new IllegalArgumentException();
+        throw new IndexOutOfBoundsException();
     }
 
     @Override
@@ -161,6 +195,7 @@ public class LinkedListCustom<E> implements List<E> {
 
     //    @Data
     private static class Node<E> {
+
 
         private E value;
 
@@ -249,11 +284,6 @@ public class LinkedListCustom<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         return null;
-    }
-
-    @Override
-    public void add(int index, E element) {
-
     }
 
 
