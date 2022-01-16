@@ -157,6 +157,22 @@ public class LinkedListCustom<E> implements List<E> {
     }
 
     @Override
+    public E set(int index, E e) {
+        Node<E> temp = head;
+        int currentIndex = 0;
+        while (temp != null){
+            if (currentIndex == index){
+                temp.setValue(e);
+                return temp.getValue();
+            } else {
+                temp = temp.getNext();
+                currentIndex++;
+            }
+        }
+        throw new IndexOutOfBoundsException();
+    }
+
+    @Override
     public int size() {
         return size;
     }
@@ -192,9 +208,9 @@ public class LinkedListCustom<E> implements List<E> {
         return Arrays.toString(result);
 
     }
-
     //    @Data
     private static class Node<E> {
+
 
 
         private E value;
@@ -279,11 +295,6 @@ public class LinkedListCustom<E> implements List<E> {
     @Override
     public boolean retainAll(Collection<?> c) {
         return false;
-    }
-
-    @Override
-    public E set(int index, E element) {
-        return null;
     }
 
 
