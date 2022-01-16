@@ -108,6 +108,21 @@ public class LinkedListCustom<E> implements List<E> {
     }
 
     @Override
+    public boolean contains(Object o) {
+        Node<E> temp = head;
+
+        while (temp != null){
+            if (temp.getValue().equals(o)){
+                return true;
+            } else {
+                temp = temp.getNext();
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public int size() {
         return size;
     }
@@ -127,11 +142,11 @@ public class LinkedListCustom<E> implements List<E> {
         return Arrays.toString(result);
 
     }
-
     //    @Data
     private static class Node<E> {
 
         private E value;
+
         private Node<E> next;
 
         private Node<E> prev;
@@ -170,11 +185,6 @@ public class LinkedListCustom<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public boolean contains(Object o) {
         return false;
     }
 
