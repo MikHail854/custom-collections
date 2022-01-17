@@ -43,15 +43,31 @@ public class ArrayListCustom<E> implements List<E> {
     }
 
     @Override
+    public E remove(int index) {
+        for (int i = 0; i < size; i++) {
+            if (index == i) {
+                E result = (E) elementData[i];
+                while (i < size) {
+                    elementData[i] = elementData[i + 1];
+                    i++;
+                }
+                elementData[i] = null;
+                size--;
+                return result;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    @Override
     public boolean remove(Object o) {
         for (int i = 0; i < size; i++) {
             if (elementData[i].equals(o)) {
-                int j = i;
-                while (j < size) {
-                    elementData[j] = elementData[j + 1];
-                    j++;
+                while (i < size) {
+                    elementData[i] = elementData[i + 1];
+                    i++;
                 }
-                elementData[j] = null;
+                elementData[i] = null;
                 size--;
                 return true;
             }
@@ -159,11 +175,6 @@ public class ArrayListCustom<E> implements List<E> {
     @Override
     public void add(int index, E element) {
 
-    }
-
-    @Override
-    public E remove(int index) {
-        return null;
     }
 
     @Override
