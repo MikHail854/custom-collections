@@ -4,10 +4,7 @@ import java.util.*;
 
 public class ArrayListCustom<E> implements List<E> {
 
-
     private static final int DEFAULT_CAPACITY = 10;
-    private static final Object[] DEFAULT_CAPACITY_EMPTY_ELEMENT_DATA = {};
-    private static final Object[] EMPTY_ELEMENT_DATA = {};
     transient Object[] elementData;
     private int size;
     private int currentCapacity;
@@ -36,7 +33,7 @@ public class ArrayListCustom<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         capacityIncrease();
-        if (index == size){
+        if (index == size) {
             elementData[size++] = element;
             return;
         } else {
@@ -57,7 +54,6 @@ public class ArrayListCustom<E> implements List<E> {
             }
         }
         throw new IllegalArgumentException();
-
     }
 
     private void capacityIncrease() {
@@ -113,13 +109,23 @@ public class ArrayListCustom<E> implements List<E> {
 
     @Override
     public E set(int index, E element) {
-        for (int i = 0; i < size; i++){
-            if (i == index){
+        for (int i = 0; i < size; i++) {
+            if (i == index) {
                 elementData[i] = element;
                 return element;
             }
         }
         throw new IllegalArgumentException();
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        for (int i = 0; i < size; i++){
+            if (elementData[i].equals(o)){
+                return i;
+            }
+        }
+        throw new NoSuchElementException();
     }
 
     @Override
@@ -168,67 +174,61 @@ public class ArrayListCustom<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public ListIterator<E> listIterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException();
-//        return null;
     }
 }
