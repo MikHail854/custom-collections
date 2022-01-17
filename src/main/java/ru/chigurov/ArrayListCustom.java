@@ -43,6 +43,23 @@ public class ArrayListCustom<E> implements List<E> {
     }
 
     @Override
+    public boolean remove(Object o) {
+        for (int i = 0; i < size; i++) {
+            if (elementData[i].equals(o)) {
+                int j = i;
+                while (j < size) {
+                    elementData[j] = elementData[j + 1];
+                    j++;
+                }
+                elementData[j] = null;
+                size--;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public E get(int index) {
         if (index <= size - 1 && index >= 0) {
             return (E) elementData[index];
@@ -102,11 +119,6 @@ public class ArrayListCustom<E> implements List<E> {
     @Override
     public <T> T[] toArray(T[] a) {
         return null;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return false;
     }
 
     @Override
