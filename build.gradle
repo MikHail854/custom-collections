@@ -1,11 +1,14 @@
 plugins {
     id 'java'
+    id 'maven'
+    id 'maven-publish'
 }
 
 group 'ru.chigurov'
 version '1.0'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -21,4 +24,23 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'name': 'custom-collections'
+        attributes 'version': '1.0'
+        attributes 'Main-Class': 'ru.chigurov.ArrayListCustom'
+    }
+    baseName = 'custom-collections'
+    version = '1.0'
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
