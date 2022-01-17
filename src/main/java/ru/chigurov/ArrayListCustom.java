@@ -33,6 +33,33 @@ public class ArrayListCustom<E> implements List<E> {
         return true;
     }
 
+    @Override
+    public void add(int index, E element) {
+        capacityIncrease();
+        if (index == size){
+            elementData[size++] = element;
+            return;
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (i == index) {
+                    E current = (E) elementData[i];
+                    elementData[i] = element;
+                    i++;
+                    size++;
+                    while (i < size) {
+                        E next = (E) elementData[i];
+                        elementData[i] = current;
+                        current = next;
+                        i++;
+                    }
+                    return;
+                }
+            }
+        }
+        throw new IllegalArgumentException();
+
+    }
+
     private void capacityIncrease() {
         if (size == currentCapacity) {
             currentCapacity += 10;
@@ -177,11 +204,6 @@ public class ArrayListCustom<E> implements List<E> {
     @Override
     public boolean retainAll(Collection<?> c) {
         return false;
-    }
-
-    @Override
-    public void add(int index, E element) {
-
     }
 
     @Override
