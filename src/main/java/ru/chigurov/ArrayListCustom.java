@@ -9,11 +9,20 @@ public class ArrayListCustom<E> implements List<E> {
     private int size;
     private int currentCapacity;
 
+    /**
+     * Constructor without parameters.
+     * The initial length of the array is 10
+     */
     public ArrayListCustom() {
         this.elementData = new Object[DEFAULT_CAPACITY];
         currentCapacity += DEFAULT_CAPACITY;
     }
 
+    /**
+     * Constructor with parameters
+     *
+     * @param initCapacity initial length of the array
+     */
     public ArrayListCustom(int initCapacity) {
         if (initCapacity >= 0) {
             this.elementData = new Object[initCapacity];
@@ -23,6 +32,12 @@ public class ArrayListCustom<E> implements List<E> {
         }
     }
 
+    /**
+     * The "add" method adds a new element to the end of the collection
+     *
+     * @param e the value of the added element
+     * @return true when a new element is added to the array
+     */
     @Override
     public boolean add(E e) {
         capacityIncrease();
@@ -30,6 +45,12 @@ public class ArrayListCustom<E> implements List<E> {
         return true;
     }
 
+    /**
+     * The "add" method adds a new element anywhere in the collection
+     *
+     * @param index   the place where the new element will be added
+     * @param element the value of the new element
+     */
     @Override
     public void add(int index, E element) {
         capacityIncrease();
@@ -56,6 +77,9 @@ public class ArrayListCustom<E> implements List<E> {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * Increasing the size of an array
+     */
     private void capacityIncrease() {
         if (size == currentCapacity) {
             currentCapacity += 10;
@@ -65,6 +89,12 @@ public class ArrayListCustom<E> implements List<E> {
         }
     }
 
+    /**
+     * Removing an element from a collection by index
+     *
+     * @param index of the element to be removed
+     * @return the element of the element that was removed
+     */
     @Override
     public E remove(int index) {
         for (int i = 0; i < size; i++) {
@@ -82,6 +112,12 @@ public class ArrayListCustom<E> implements List<E> {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * Removing an object from a collection
+     *
+     * @param o object to be deleted from the collection
+     * @return true if the object was successfully removed from the collection
+     */
     @Override
     public boolean remove(Object o) {
         for (int i = 0; i < size; i++) {
@@ -98,6 +134,12 @@ public class ArrayListCustom<E> implements List<E> {
         return false;
     }
 
+    /**
+     * Getting an object by index from a collection
+     *
+     * @param index the index of the element to get
+     * @return collection element value
+     */
     @Override
     public E get(int index) {
         if (index <= size - 1 && index >= 0) {
@@ -107,6 +149,13 @@ public class ArrayListCustom<E> implements List<E> {
         }
     }
 
+    /**
+     * Changing the value of an existing collection element
+     *
+     * @param index   of the element to change
+     * @param element the new value of the element
+     * @return the new value of the element
+     */
     @Override
     public E set(int index, E element) {
         for (int i = 0; i < size; i++) {
@@ -118,16 +167,25 @@ public class ArrayListCustom<E> implements List<E> {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * The method checks at what index the desired object is located
+     *
+     * @param o object to be searched among the existing collection objects
+     * @return the index at which the object is found
+     */
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < size; i++){
-            if (elementData[i].equals(o)){
+        for (int i = 0; i < size; i++) {
+            if (elementData[i].equals(o)) {
                 return i;
             }
         }
         throw new NoSuchElementException();
     }
 
+    /**
+     * The method clears the entire collection
+     */
     @Override
     public void clear() {
         for (int i = 0; i < size; i++)
@@ -150,16 +208,32 @@ public class ArrayListCustom<E> implements List<E> {
         return "elementData=" + result;
     }
 
+    /**
+     * The method checks how many elements are in the collection
+     *
+     * @return number of elements in the collection
+     */
     @Override
     public int size() {
         return size;
     }
 
+    /**
+     * The method checks the collection for emptiness
+     *
+     * @return true if the collection is empty
+     */
     @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    /**
+     * The method will check if the required object is contained in the collection
+     *
+     * @param o search object in the collection
+     * @return true if the object being searched for is contained in the collection
+     */
     @Override
     public boolean contains(Object o) {
         if (o != null) {
