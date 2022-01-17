@@ -205,7 +205,7 @@ public class ArrayListCustom<E> implements List<E> {
             i++;
         }
         result += "]";
-        return "elementData=" + result;
+        return result;
     }
 
     /**
