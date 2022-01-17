@@ -85,18 +85,24 @@ public class ArrayListCustom<E> implements List<E> {
     }
 
     @Override
+    public void clear() {
+        for (int i = 0; i < size; i++)
+            elementData[i] = null;
+        size = 0;
+    }
+
+    @Override
     public String toString() {
         int i = 0;
         String result = "[";
         while (elementData[i] != null) {
             result = result + elementData[i];
-            if (elementData[i + 1] == null) {
-                result = result + "]";
-            } else {
+            if (elementData[i + 1] != null) {
                 result = result + ", ";
             }
             i++;
         }
+        result += "]";
         return "elementData=" + result;
     }
 
@@ -160,11 +166,6 @@ public class ArrayListCustom<E> implements List<E> {
     @Override
     public boolean retainAll(Collection<?> c) {
         return false;
-    }
-
-    @Override
-    public void clear() {
-
     }
 
     @Override
