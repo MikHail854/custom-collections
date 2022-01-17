@@ -85,6 +85,17 @@ public class ArrayListCustom<E> implements List<E> {
     }
 
     @Override
+    public E set(int index, E element) {
+        for (int i = 0; i < size; i++){
+            if (i == index){
+                elementData[i] = element;
+                return element;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    @Override
     public void clear() {
         for (int i = 0; i < size; i++)
             elementData[i] = null;
@@ -166,11 +177,6 @@ public class ArrayListCustom<E> implements List<E> {
     @Override
     public boolean retainAll(Collection<?> c) {
         return false;
-    }
-
-    @Override
-    public E set(int index, E element) {
-        return null;
     }
 
     @Override
