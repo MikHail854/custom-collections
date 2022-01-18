@@ -8,6 +8,12 @@ public class LinkedListCustom<E> implements List<E> {
 
     private int size;
 
+    /**
+     * this method adds a new element to the collection
+     *
+     * @param e element to be added to the collection
+     * @return true when an element is added to the collection
+     */
     @Override
     public boolean add(E e) {
         //если первое добавление в список
@@ -24,6 +30,12 @@ public class LinkedListCustom<E> implements List<E> {
         return true;
     }
 
+    /**
+     * adding a new element to the collection by index
+     *
+     * @param index the position where the new element will be added
+     * @param e     element to be added to the collection
+     */
     @Override
     public void add(int index, E e) {
         if (index == 0) {
@@ -58,6 +70,12 @@ public class LinkedListCustom<E> implements List<E> {
 
     }
 
+    /**
+     * getting an element from a collection by index
+     *
+     * @param index the position of the object in the collection to get
+     * @return the object that is contained in the requested index
+     */
     @Override
     public E get(int index) {
         int currentIndex = 0;
@@ -74,6 +92,12 @@ public class LinkedListCustom<E> implements List<E> {
         throw new IndexOutOfBoundsException();
     }
 
+    /**
+     * removing an element from a collection by index
+     *
+     * @param index the index of the element to be removed
+     * @return the element that was removed from the collection
+     */
     public E remove(int index) {
         Node<E> result;
         int currentIndex = 0;
@@ -125,6 +149,12 @@ public class LinkedListCustom<E> implements List<E> {
         throw new IndexOutOfBoundsException();
     }
 
+    /**
+     * removing an object from a collection
+     *
+     * @param o the object to be removed from the collection
+     * @return true if the object was successfully removed from the collection
+     */
     @Override
     public boolean remove(Object o) {
         Node<E> temp = head;
@@ -154,6 +184,12 @@ public class LinkedListCustom<E> implements List<E> {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * The method checks if the collection contains the required object
+     *
+     * @param o the object to be searched in the collection
+     * @return true if the object is contained in the collection
+     */
     @Override
     public boolean contains(Object o) {
         Node<E> temp = head;
@@ -169,6 +205,13 @@ public class LinkedListCustom<E> implements List<E> {
         return false;
     }
 
+    /**
+     * The method changes the value of an existing element
+     *
+     * @param index object to be changed
+     * @param e     the new value of the element
+     * @return the new value of the element
+     */
     @Override
     public E set(int index, E e) {
         Node<E> temp = head;
@@ -185,11 +228,19 @@ public class LinkedListCustom<E> implements List<E> {
         throw new IndexOutOfBoundsException();
     }
 
+    /**
+     * method checks the size of the collection
+     *
+     * @return collection size
+     */
     @Override
     public int size() {
         return size;
     }
 
+    /**
+     * This method removes all elements from the collection
+     */
     @Override
     public void clear() {
         Node<E> temp = head;
@@ -225,7 +276,6 @@ public class LinkedListCustom<E> implements List<E> {
 
     //    @Data
     private static class Node<E> {
-
 
         private E value;
 
