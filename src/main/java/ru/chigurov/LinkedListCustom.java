@@ -317,74 +317,74 @@ public class LinkedListCustom<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public ListIterator<E> listIterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 
