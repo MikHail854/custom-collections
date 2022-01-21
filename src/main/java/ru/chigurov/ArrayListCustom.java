@@ -81,7 +81,7 @@ public class ArrayListCustom<E> implements List<E> {
      * Increasing the size of an array
      */
     private void capacityIncrease() {
-        if (size == currentCapacity) {
+        if (size > currentCapacity * 0.75) {
             currentCapacity += 10;
             Object[] newList = new Object[currentCapacity];
             if (size >= 0) System.arraycopy(elementData, 0, newList, 0, size);
@@ -201,8 +201,10 @@ public class ArrayListCustom<E> implements List<E> {
             result = result + elementData[i];
             if (elementData[i + 1] != null) {
                 result = result + ", ";
+                i++;
+                continue;
             }
-            i++;
+            break;
         }
         result += "]";
         return result;
@@ -246,9 +248,31 @@ public class ArrayListCustom<E> implements List<E> {
         return false;
     }
 
+    /**
+     * The iterator is needed to implement the foreach method with
+     * which you can run through the entire collection.
+     * Iterators allow the caller to remove elements from the
+     * underlying collection during the iteration with well-defined semantics.
+     *
+     * Type parameters:<E> – the type of elements returned by this iterator
+     * @return Iterator
+     */
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<E>() {
+
+            int counter = 0;
+
+            @Override
+            public boolean hasNext() {
+                return counter < size;
+            }
+
+            @Override
+            public E next() {
+                return get(counter++);
+            }
+        };
     }
 
     @Override
