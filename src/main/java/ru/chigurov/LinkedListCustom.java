@@ -322,7 +322,20 @@ public class LinkedListCustom<E> implements List<E> {
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException();
+        return new Iterator<E>() {
+
+            int counter = 0;
+
+            @Override
+            public boolean hasNext() {
+                return counter < size;
+            }
+
+            @Override
+            public E next() {
+                return get(counter++);
+            }
+        };
     }
 
     @Override
