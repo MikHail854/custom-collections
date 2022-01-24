@@ -1,6 +1,9 @@
 package ru.chigurov;
 
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ArrayListCustom<E> implements List<E> {
 
@@ -8,6 +11,10 @@ public class ArrayListCustom<E> implements List<E> {
     transient Object[] elementData;
     private int size;
     private int currentCapacity;
+
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+    private final Lock readLock = lock.readLock();
+    private final Lock writeLock = lock.writeLock();
 
     /**
      * Constructor without parameters.
@@ -40,9 +47,14 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public boolean add(E e) {
-        capacityIncrease();
-        elementData[size++] = e;
-        return true;
+        try {
+            lockingForWrite();
+            capacityIncrease();
+            elementData[size++] = e;
+            return true;
+        } finally {
+            writeLock.unlock();
+        }
     }
 
     /**
@@ -53,28 +65,33 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public void add(int index, E element) {
-        capacityIncrease();
-        if (index == size) {
-            elementData[size++] = element;
-            return;
-        } else {
-            for (int i = 0; i < size; i++) {
-                if (i == index) {
-                    E current = (E) elementData[i];
-                    elementData[i] = element;
-                    i++;
-                    size++;
-                    while (i < size) {
-                        E next = (E) elementData[i];
-                        elementData[i] = current;
-                        current = next;
+        try {
+            lockingForWrite();
+            capacityIncrease();
+            if (index == size) {
+                elementData[size++] = element;
+                return;
+            } else {
+                for (int i = 0; i < size; i++) {
+                    if (i == index) {
+                        E current = (E) elementData[i];
+                        elementData[i] = element;
                         i++;
+                        size++;
+                        while (i < size) {
+                            E next = (E) elementData[i];
+                            elementData[i] = current;
+                            current = next;
+                            i++;
+                        }
+                        return;
                     }
-                    return;
                 }
             }
+            throw new IllegalArgumentException();
+        } finally {
+            writeLock.unlock();
         }
-        throw new IllegalArgumentException();
     }
 
     /**
@@ -97,19 +114,24 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public E remove(int index) {
-        for (int i = 0; i < size; i++) {
-            if (index == i) {
-                E result = (E) elementData[i];
-                while (i < size) {
-                    elementData[i] = elementData[i + 1];
-                    i++;
+        try {
+            lockingForWrite();
+            for (int i = 0; i < size; i++) {
+                if (index == i) {
+                    E result = (E) elementData[i];
+                    while (i < size) {
+                        elementData[i] = elementData[i + 1];
+                        i++;
+                    }
+                    elementData[i] = null;
+                    size--;
+                    return result;
                 }
-                elementData[i] = null;
-                size--;
-                return result;
             }
+            throw new IllegalArgumentException();
+        } finally {
+            writeLock.unlock();
         }
-        throw new IllegalArgumentException();
     }
 
     /**
@@ -120,18 +142,23 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (elementData[i].equals(o)) {
-                while (i < size) {
-                    elementData[i] = elementData[i + 1];
-                    i++;
+        try {
+            lockingForWrite();
+            for (int i = 0; i < size; i++) {
+                if (elementData[i].equals(o)) {
+                    while (i < size) {
+                        elementData[i] = elementData[i + 1];
+                        i++;
+                    }
+                    elementData[i] = null;
+                    size--;
+                    return true;
                 }
-                elementData[i] = null;
-                size--;
-                return true;
             }
+            return false;
+        } finally {
+            writeLock.unlock();
         }
-        return false;
     }
 
     /**
@@ -142,10 +169,15 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public E get(int index) {
-        if (index <= size - 1 && index >= 0) {
-            return (E) elementData[index];
-        } else {
-            throw new IllegalArgumentException();
+        try {
+            lockingForRead();
+            if (index <= size - 1 && index >= 0) {
+                return (E) elementData[index];
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } finally {
+            readLock.unlock();
         }
     }
 
@@ -158,13 +190,18 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public E set(int index, E element) {
-        for (int i = 0; i < size; i++) {
-            if (i == index) {
-                elementData[i] = element;
-                return element;
+        try {
+            lockingForWrite();
+            for (int i = 0; i < size; i++) {
+                if (i == index) {
+                    elementData[i] = element;
+                    return element;
+                }
             }
+            throw new IllegalArgumentException();
+        } finally {
+            writeLock.unlock();
         }
-        throw new IllegalArgumentException();
     }
 
     /**
@@ -175,12 +212,17 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (elementData[i].equals(o)) {
-                return i;
+        try {
+            lockingForRead();
+            for (int i = 0; i < size; i++) {
+                if (elementData[i].equals(o)) {
+                    return i;
+                }
             }
+            throw new NoSuchElementException();
+        } finally {
+            readLock.unlock();
         }
-        throw new NoSuchElementException();
     }
 
     /**
@@ -188,9 +230,14 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public void clear() {
-        for (int i = 0; i < size; i++)
-            elementData[i] = null;
-        size = 0;
+        try {
+            lockingForWrite();
+            for (int i = 0; i < size; i++)
+                elementData[i] = null;
+            size = 0;
+        } finally {
+            writeLock.unlock();
+        }
     }
 
     @Override
@@ -217,7 +264,12 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public int size() {
-        return size;
+        try {
+            lockingForRead();
+            return size;
+        } finally {
+            readLock.unlock();
+        }
     }
 
     /**
@@ -238,14 +290,19 @@ public class ArrayListCustom<E> implements List<E> {
      */
     @Override
     public boolean contains(Object o) {
-        if (o != null) {
-            for (int i = 0; i < size; i++) {
-                if (elementData[i].equals(o)) {
-                    return true;
+        try {
+            lockingForRead();
+            if (o != null) {
+                for (int i = 0; i < size; i++) {
+                    if (elementData[i].equals(o)) {
+                        return true;
+                    }
                 }
             }
+            return false;
+        } finally {
+            readLock.unlock();
         }
-        return false;
     }
 
     /**
@@ -253,27 +310,58 @@ public class ArrayListCustom<E> implements List<E> {
      * which you can run through the entire collection.
      * Iterators allow the caller to remove elements from the
      * underlying collection during the iteration with well-defined semantics.
-     *
+     * <p>
      * Type parameters:<E> – the type of elements returned by this iterator
+     *
      * @return Iterator
      */
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
+        try {
+            lockingForRead();
+            return new Iterator<E>() {
 
-            int counter = 0;
+                int counter = 0;
 
-            @Override
-            public boolean hasNext() {
-                return counter < size;
-            }
+                @Override
+                public boolean hasNext() {
+                    return counter < size;
+                }
 
-            @Override
-            public E next() {
-                return get(counter++);
-            }
-        };
+                @Override
+                public E next() {
+                    return get(counter++);
+                }
+            };
+        } finally {
+            readLock.unlock();
+        }
     }
+
+    /**
+     * Blocking the collection for reading.
+     */
+    private void lockingForRead() {
+        while (true) {
+            boolean readLockResult = readLock.tryLock();
+            if (readLockResult) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Blocking the collection for writing.
+     */
+    private void lockingForWrite() {
+        while (true) {
+            boolean writeLockResult = writeLock.tryLock();
+            if (writeLockResult) {
+                break;
+            }
+        }
+    }
+
 
     @Override
     public Object[] toArray() {
