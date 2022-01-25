@@ -1,5 +1,7 @@
 package ru.chigurov;
 
+import lombok.Data;
+
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -325,7 +327,7 @@ public class LinkedListCustom<E> implements List<E> {
 
     }
 
-    //    @Data
+    @Data
     private static class Node<E> {
 
         private E value;
@@ -338,7 +340,7 @@ public class LinkedListCustom<E> implements List<E> {
             this.prev = prev;
         }
 
-        public E getValue() {
+        /*public E getValue() {
             return value;
         }
 
@@ -360,7 +362,7 @@ public class LinkedListCustom<E> implements List<E> {
 
         public void setPrev(Node<E> prev) {
             this.prev = prev;
-        }
+        }*/
 
     }
 
