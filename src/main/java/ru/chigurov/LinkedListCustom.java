@@ -1,5 +1,7 @@
 package ru.chigurov;
 
+import lombok.Data;
+
 import java.util.*;
 
 public class LinkedListCustom<E> implements List<E> {
@@ -274,7 +276,7 @@ public class LinkedListCustom<E> implements List<E> {
 
     }
 
-    //    @Data
+    @Data
     private static class Node<E> {
 
         private E value;
@@ -286,30 +288,6 @@ public class LinkedListCustom<E> implements List<E> {
 
         public Node(E value, Node<E> prev) {
             this.value = value;
-            this.prev = prev;
-        }
-
-        public E getValue() {
-            return value;
-        }
-
-        public void setValue(E value) {
-            this.value = value;
-        }
-
-        public Node<E> getNext() {
-            return next;
-        }
-
-        public void setNext(Node<E> next) {
-            this.next = next;
-        }
-
-        public Node<E> getPrev() {
-            return prev;
-        }
-
-        public void setPrev(Node<E> prev) {
             this.prev = prev;
         }
 
